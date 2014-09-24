@@ -115,13 +115,13 @@ See http://capistranorb.com/documentation/getting-started/authentication-and-aut
 
 ### Deployment Steps
 
-1. Edit your `config/deploy/` stage/environment configs to set the roles/servers and connection options.
+1. Edit your `resources/config/deploy/` stage/environment configs to set the roles/servers and connection options.
 2. Before your first deploy, run `bundle exec cap <stage> deploy:check` to create the necessary folders/symlinks.
 3. Add your `.env` file to `shared/` in your `deploy_to` path on the remote server for all the stages you use (ex: `/srv/www/example.com/shared/.env`)
 4. Run the normal deploy command: `bundle exec cap <stage> deploy`
 5. Enjoy one-command deploys!
 
-* Edit stage/environment configs in `config/deploy/` to set the roles/servers and connection options.
+* Edit stage/environment configs in `resources/config/deploy/` to set the roles/servers and connection options.
 
 ## Documentation
 
@@ -154,7 +154,7 @@ See http://capistranorb.com/documentation/getting-started/authentication-and-aut
 ├── src
 ├── test
 ├── vendor
-├── Gemfile
+└── Gemfile
 ```
 
 The organization of Bedrock is similar to putting WordPress in its own subdirectory but with some improvements.
