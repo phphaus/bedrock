@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<project name="BlueCreek-wcms" default="build" basedir="" description="This is an example buildfile for BlueCreek-wcms's Phing.">
+	<target name="prepare" />
+	<target name="reports" />
+	<target name="test" />
+	<target name="docs" />
+	<target name="build" />
+	<target name="clean" />
+</project>

@@ -1,19 +1,14 @@
 {
-  "name": "roots/bedrock",
+  "name": "phphaus/bedrock",
   "type": "project",
   "license": "MIT",
-  "description": "A modern WordPress stack",
-  "homepage": "http://roots.io/wordpress-stack/",
+  "description": "A modern WordPress stack customized for phpHaus",
+  "homepage": "http://www.phphaus.com/",
   "authors": [
     {
-      "name": "Scott Walkinshaw",
-      "email": "scott.walkinshaw@gmail.com",
-      "homepage": "https://github.com/swalkinshaw"
-    },
-    {
-      "name": "Ben Word",
-      "email": "ben@benword.com",
-      "homepage": "https://github.com/retlehs"
+      "name": "Philipp Duffner",
+      "email": "philipp@phphaus.com",
+      "homepage": "https://github.com/phpPhil"
     }
   ],
   "keywords": [
@@ -28,7 +23,7 @@
     "generate-salts": true
   },
   "autoload": {
-    "psr-0": {"Roots\\Bedrock\\Installer": "scripts"}
+    "psr-0": {"Roots\\Bedrock\\Installer": "build"}
   },
   "scripts": {
     "post-root-package-install": ["Roots\\Bedrock\\Installer::addSalts"]
@@ -63,11 +58,11 @@
   },
   "extra": {
     "installer-paths": {
-      "web/app/mu-plugins/{$name}/": ["type:wordpress-muplugin"],
-      "web/app/plugins/{$name}/": ["type:wordpress-plugin"],
-      "web/app/themes/{$name}/": ["type:wordpress-theme"]
+      "resources/public/app/mu-plugins/{$name}/": ["type:wordpress-muplugin"],
+      "resources/public/app/plugins/{$name}/": ["type:wordpress-plugin"],
+      "resources/public/app/themes/{$name}/": ["type:wordpress-theme"]
     },
-    "webroot-dir": "web/wp",
+    "webroot-dir": "resources/public/wp",
     "webroot-package": "wordpress/wordpress"
   }
 }

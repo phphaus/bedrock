@@ -1,3 +1,10 @@
+
+### 1.2.7-phphaus-custom: 2014-09-25
+
+* Adapted directory structure to be more in sync with a Symfony like structure
+* Added additional placeholder directories
+* Better webroot structure: introduces the `/resources/public` directory as the document/web root for web server vhosts
+
 ### 1.2.7: 2014-09-04
 
 * Update to WordPress 4.0

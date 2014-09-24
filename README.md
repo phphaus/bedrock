@@ -78,7 +78,7 @@ To skip the scripts completely, `create-project` can be run with `--no-scripts` 
   * `WP_HOME` - Full URL to WordPress home (http://example.com)
   * `WP_SITEURL` - Full URL to WordPress including subdirectory (http://example.com/wp)
 3. Add theme(s)
-4. Set your Nginx or Apache vhost to `/path/to/site/web/` (`/path/to/site/current/web/` if using Capistrano)
+4. Set your Nginx or Apache vhost to `/path/to/site/resources/public/` (`/path/to/site/current/resources/public/` if using Capistrano)
 5. Access WP Admin at `http://example.com/wp/wp-admin`
 
 
@@ -95,7 +95,7 @@ To skip the scripts completely, `create-project` can be run with `--no-scripts` 
   * `WP_HOME` - Full URL to WordPress home (http://example.com)
   * `WP_SITEURL` - Full URL to WordPress including subdirectory (http://example.com/wp)
 4. Add theme(s)
-4. Set your Nginx or Apache vhost to `/path/to/site/web/` (`/path/to/site/current/web/` if using Capistrano)
+4. Set your Nginx or Apache vhost to `/path/to/site/resources/public/` (`/path/to/site/current/resources/public/` if using Capistrano)
 5. Access WP Admin at `http://example.com/wp/wp-admin`
 
 Using Capistrano for deploys?
@@ -130,46 +130,50 @@ See http://capistranorb.com/documentation/getting-started/authentication-and-aut
 ```
 ├── Capfile
 ├── composer.json
-├── config
-│   ├── application.php
-│   ├── deploy
-│   │   ├── staging.rb
-│   │   └── production.rb
-│   ├── deploy.rb
-│   ├── environments
-│   │   ├── development.php
-│   │   ├── staging.php
-│   │   └── production.php
-│   └── application.php
-├── Gemfile
+├── build
+├── resources
+│    ├── config
+│    │   ├── application.php
+│    │   ├── deploy
+│    │   │   ├── staging.rb
+│    │   │   └── production.rb
+│    │   ├── deploy.rb
+│    │   ├── environments
+│    │   │   ├── development.php
+│    │   │   ├── staging.php
+│    │   │   └── production.php
+│    │   └── application.php
+│    └── public
+│        ├── app
+│        │   ├── mu-plugins
+│        │   ├── plugins
+│        │   └── themes
+│        ├── wp-config.php
+│        ├── index.php
+│        └── wp
+├── src
+├── test
 ├── vendor
-└── web
-    ├── app
-    │   ├── mu-plugins
-    │   ├── plugins
-    │   └── themes
-    ├── wp-config.php
-    ├── index.php
-    └── wp
+├── Gemfile
 ```
 
 The organization of Bedrock is similar to putting WordPress in its own subdirectory but with some improvements.
 
-* In order not to expose sensitive files in the webroot, Bedrock moves what's required into a `web/` directory including the vendor'd `wp/` source, and the `wp-content` source.
+* In order not to expose sensitive files in the webroot, Bedrock moves what's required into a `resources/public/` directory including the vendor'd `wp/` source, and the `wp-content` source.
 * `wp-content` (or maybe just `content`) has been named `app` to better reflect its contents. It contains application code and not just "static content". It also matches up with other frameworks such as Symfony and Rails.
-* `wp-config.php` remains in the `web/` because it's required by WP, but it only acts as a loader. The actual configuration files have been moved to `config/` for better separation.
-* Capistrano configs are also located in `config/` to make it consistent.
+* `wp-config.php` remains in the `resources/public/` because it's required by WP, but it only acts as a loader. The actual configuration files have been moved to `resources/config/` for better separation.
+* Capistrano configs are also located in `resources/config/` to make it consistent.
 * `vendor/` is where the Composer managed dependencies are installed to.
 * `wp/` is where the WordPress core lives. It's also managed by Composer but can't be put under `vendor` due to WP limitations.
 
 
 ### Configuration Files
 
-The root `web/wp-config.php` is required by WordPress and is only used to load the other main configs. Nothing else should be added to it.
+The root `resources/public/wp-config.php` is required by WordPress and is only used to load the other main configs. Nothing else should be added to it.
 
-`config/application.php` is the main config file that contains what `wp-config.php` usually would. Base options should be set in there.
+`resources/config/application.php` is the main config file that contains what `wp-config.php` usually would. Base options should be set in there.
 
-For environment specific configuration, use the files under `config/environments`. By default there's is `development`, `staging`, and `production` but these can be whatever you require.
+For environment specific configuration, use the files under `resources/config/environments`. By default there's is `development`, `staging`, and `production` but these can be whatever you require.
 
 The environment configs are required **before** the main `application` config so anything in an environment config takes precedence over `application`.
 
@@ -232,7 +236,7 @@ Whenever you add a new plugin or update the WP version, run `composer update` to
 
 `plugins`, and `mu-plugins` are Git ignored by default since Composer manages them. If you want to add something to those folders that *isn't* managed by Composer, you need to update `.gitignore` to whitelist them:
 
-`!web/app/plugins/plugin-name`
+`!resources/public/app/plugins/plugin-name`
 
 Note: Some plugins may create files or folders outside of their given scope, or even make modifications to `wp-config.php` and other files in the `app` directory. These files should be added to your `.gitignore` file as they are managed by the plugins themselves, which are managed via Composer. Any modifications to `wp-config.php` that are needed should be moved into `config/application.php`. 
 
@@ -297,7 +301,7 @@ Bedrock disables the internal WP Cron via `define('DISABLE_WP_CRON', true);`. If
 
 Bedrock works with [WP-CLI](http://wp-cli.org/) just like any other WordPress project would. Previously we required WP-CLI in our `composer.json` file as a dependency. This has been removed since WP-CLI now recommends installing it globally with a `phar` file. It also caused conflicts if you tried using a global install.
 
-The `wp` command will automatically pick up Bedrock's subdirectory install as long as you run commands from within the project's directory (or deeper). Bedrock includes a `wp-cli.yml` file that sets the `path` option to `web/wp`. Use this config file for any further [configuration](http://wp-cli.org/config/).
+The `wp` command will automatically pick up Bedrock's subdirectory install as long as you run commands from within the project's directory (or deeper). Bedrock includes a `wp-cli.yml` file that sets the `path` option to `resources/public/wp`. Use this config file for any further [configuration](http://wp-cli.org/config/).
 
 ## Vagrant/Ansible
 
@@ -310,15 +314,15 @@ Note that using Ansible you no longer need to manually create/edit a `.env` file
 Bedrock includes an autoloader that enables standard plugins to be required just like must-use plugins.
 The autoloaded plugins are included after all mu-plugins and standard plugins have been loaded.
 An asterisk (*) next to the name of the plugin designates the plugins that have been autoloaded.
-To remove this functionality, just delete `web/app/mu-plugins/bedrock-autoloader.php`.
+To remove this functionality, just delete `resources/public/app/mu-plugins/bedrock-autoloader.php`.
 
 This enables the use of mu-plugins through Composer if their package type is `wordpress-muplugin`. You can also override a plugin's type like the following example:
 
 ```json
 "installer-paths": {
-  "web/app/mu-plugins/{$name}/": ["type:wordpress-muplugin", "roots/soil"],
-  "web/app/plugins/{$name}/": ["type:wordpress-plugin"],
-  "web/app/themes/{$name}/": ["type:wordpress-theme"]
+  "resources/public/app/mu-plugins/{$name}/": ["type:wordpress-muplugin", "roots/soil"],
+  "resources/public/app/plugins/{$name}/": ["type:wordpress-plugin"],
+  "resources/public/app/themes/{$name}/": ["type:wordpress-theme"]
 },
 ```
 

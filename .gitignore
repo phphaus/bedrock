@@ -1,6 +1,6 @@
 # WordPress
-web/wp
-web/.htaccess
+resources/public/wp
+resources/public/.htaccess
 
 # WP-CLI
 db-sync
@@ -12,16 +12,16 @@ sql-dump-*.sql
 !.env.example
 
 # Application
-web/app/plugins/*
-!web/app/plugins/.gitkeep
-web/app/mu-plugins/*
-!web/app/mu-plugins/.gitkeep
-web/app/upgrade
-web/app/uploads/*
-!web/app/uploads/.gitkeep
-!web/app/mu-plugins/disallow-indexing.php
-!web/app/mu-plugins/register-theme-directory.php
-!web/app/mu-plugins/bedrock-autoloader.php
+resources/public/app/plugins/*
+!resources/public/app/plugins/.gitkeep
+resources/public/app/mu-plugins/*
+!resources/public/app/mu-plugins/.gitkeep
+resources/public/app/upgrade
+resources/public/app/uploads/*
+!resources/public/app/uploads/.gitkeep
+!resources/public/app/mu-plugins/disallow-indexing.php
+!resources/public/app/mu-plugins/register-theme-directory.php
+!resources/public/app/mu-plugins/bedrock-autoloader.php
 
 # Vendor (e.g. Composer)
 vendor/*
