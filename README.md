@@ -19,14 +19,14 @@ Bedrock is a modern WordPress stack that helps you get started with the best dev
   * [Composer](#composer)
   * [Capistrano](#capistrano)
   * [WP-CLI](#wp-cli)
-  * [Vagrant/Ansible](#vagrantansible)
+  * [Vagrant/Puppet](#vagrantpuppet)
   * [mu-plugins Autoloader](#mu-plugins-autoloader)
 * [Contributing](#contributing)
 * [Support](#support)
 
 ## Quick Start
 
-Use [bedrock-ansible](https://github.com/phphaus/vagrant-lamp) to get started with a development VM customized for Bedrock.
+Use [phphaus/vagrant-lamp](https://github.com/phphaus/vagrant-lamp) to get started with a development VM customized for Bedrock.
 
 Or run `composer create-project phphaus/bedrock <path>` (see [Installation/Usage](#installationusage) for more details) to just get a new copy of Bedrock locally.
 
@@ -303,9 +303,9 @@ Bedrock works with [WP-CLI](http://wp-cli.org/) just like any other WordPress pr
 
 The `wp` command will automatically pick up Bedrock's subdirectory install as long as you run commands from within the project's directory (or deeper). Bedrock includes a `wp-cli.yml` file that sets the `path` option to `resources/public/wp`. Use this config file for any further [configuration](http://wp-cli.org/config/).
 
-## Vagrant/Ansible
+## Vagrant/Puppet
 
-Vagrant integration with Bedrock can now be found in the separate [bedrock-ansible](https://github.com/phphaus/vagrant-lamp) project. Basic instructions exist in that project's README, but if you want a Vagrant box tied to a specific Bedrock based WP application, copy the example `Vagrantfile` into your app's repo and edit the necessary file paths.
+Vagrant integration with Bedrock can now be found in the separate [phphaus/vagrant-lamp](https://github.com/phphaus/vagrant-lamp) project. Basic instructions exist in that project's README, but if you want a Vagrant box tied to a specific Bedrock based WP application, copy the example `Vagrantfile` into your app's repo and edit the necessary file paths.
 
 ## mu-plugins autoloader
 
