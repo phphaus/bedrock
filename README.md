@@ -26,9 +26,9 @@ Bedrock is a modern WordPress stack that helps you get started with the best dev
 
 ## Quick Start
 
-Use [bedrock-ansible](https://github.com/roots/bedrock-ansible) to get started with a development VM customized for Bedrock.
+Use [bedrock-ansible](https://github.com/phphaus/vagrant-lamp) to get started with a development VM customized for Bedrock.
 
-Or run `composer create-project roots/bedrock <path>` (see [Installation/Usage](#installationusage) for more details) to just get a new copy of Bedrock locally.
+Or run `composer create-project phphaus/bedrock <path>` (see [Installation/Usage](#installationusage) for more details) to just get a new copy of Bedrock locally.
 
 ## Features
 
@@ -68,7 +68,7 @@ Note: To generate salts without a prompt, run `create-project` with `-n` (non-in
 
 To skip the scripts completely, `create-project` can be run with `--no-scripts` to disable it.
 
-1. Run `composer create-project roots/bedrock <path>` (`path` being the folder to install to)
+1. Run `composer create-project phphaus/bedrock <path>` (`path` being the folder to install to)
 2. Edit `.env` and update environment variables:
   * `DB_NAME` - Database name
   * `DB_USER` - Database user
@@ -305,9 +305,7 @@ The `wp` command will automatically pick up Bedrock's subdirectory install as lo
 
 ## Vagrant/Ansible
 
-Vagrant and Ansible integration with Bedrock can now be found in the separate [bedrock-ansible](https://github.com/roots/bedrock-ansible) project. Basic instructions exist in that project's README, but if you want a Vagrant box tied to a specific Bedrock based WP application, copy the example `Vagrantfile` into your app's repo and edit the necessary file paths.
-
-Note that using Ansible you no longer need to manually create/edit a `.env` file (or use `composer create-project` to generate one). Ansible will generate a `.env` based on its config and automatically generate salts/keys.
+Vagrant integration with Bedrock can now be found in the separate [bedrock-ansible](https://github.com/phphaus/vagrant-lamp) project. Basic instructions exist in that project's README, but if you want a Vagrant box tied to a specific Bedrock based WP application, copy the example `Vagrantfile` into your app's repo and edit the necessary file paths.
 
 ## mu-plugins autoloader
 
