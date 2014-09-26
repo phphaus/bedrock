@@ -10,14 +10,11 @@ Bedrock is a modern WordPress stack that helps you get started with the best dev
 * [Installation/Usage](#installationusage)
   * [via Composer](#using-create-project)
   * [Manually](#manually)
-* [Deploying with Capistrano](#deploying-with-capistrano)
-  * [Steps](#deployment-steps)
-* [Documentation](#deploying-with-capistrano)
+* [Documentation](#folder-structure)
   * [Folder Structure](#folder-structure)
   * [Configuration Files](#configuration-files)
   * [Environment Variables](#environment-variables)
   * [Composer](#composer)
-  * [Capistrano](#capistrano)
   * [WP-CLI](#wp-cli)
   * [Vagrant/Puppet](#vagrantpuppet)
   * [mu-plugins Autoloader](#mu-plugins-autoloader)
@@ -33,7 +30,6 @@ Or run `composer create-project phphaus/bedrock <path>` (see [Installation/Usage
 ## Features
 
 * Dependency management with [Composer](http://getcomposer.org)
-* Automated deployments with [Capistrano](http://www.capistranorb.com/)
 * Better folder structure
 * Easy WordPress configuration with environment specific files
 * Environment variables with [Dotenv](https://github.com/vlucas/phpdotenv)
@@ -50,9 +46,8 @@ Note: While this is a project from the guys behind the [Roots starter theme](htt
 
 * Git
 * PHP >= 5.3.2 (for Composer)
-* Ruby >= 1.9 (for Capistrano)
 
-If you aren't interested in using a part, then you don't need its requirements either. Not deploying with Capistrano? Then don't worry about Ruby for example.
+If you aren't interested in using a part, then you don't need its requirements either.
 
 ## Installation/Usage
 
@@ -68,7 +63,7 @@ Note: To generate salts without a prompt, run `create-project` with `-n` (non-in
 
 To skip the scripts completely, `create-project` can be run with `--no-scripts` to disable it.
 
-1. Run `composer create-project phphaus/bedrock <path>` (`path` being the folder to install to)
+1. Run `composer create-project phphaus/bedrock <path>` (`path` being the folder to install to). User syntax `composer create-project=1.3.x-dev phphaus/bedrock <path>` to install a particular version.
 2. Edit `.env` and update environment variables:
   * `DB_NAME` - Database name
   * `DB_USER` - Database user
@@ -78,7 +73,7 @@ To skip the scripts completely, `create-project` can be run with `--no-scripts` 
   * `WP_HOME` - Full URL to WordPress home (http://example.com)
   * `WP_SITEURL` - Full URL to WordPress including subdirectory (http://example.com/wp)
 3. Add theme(s)
-4. Set your Nginx or Apache vhost to `/path/to/site/resources/public/` (`/path/to/site/current/resources/public/` if using Capistrano)
+4. Set your Nginx or Apache vhost to `/path/to/site/resources/public/`
 5. Access WP Admin at `http://example.com/wp/wp-admin`
 
 
@@ -95,49 +90,19 @@ To skip the scripts completely, `create-project` can be run with `--no-scripts` 
   * `WP_HOME` - Full URL to WordPress home (http://example.com)
   * `WP_SITEURL` - Full URL to WordPress including subdirectory (http://example.com/wp)
 4. Add theme(s)
-4. Set your Nginx or Apache vhost to `/path/to/site/resources/public/` (`/path/to/site/current/resources/public/` if using Capistrano)
+4. Set your Nginx or Apache vhost to `/path/to/site/resources/public/`
 5. Access WP Admin at `http://example.com/wp/wp-admin`
-
-Using Capistrano for deploys?
-
-### Deploying with Capistrano
-
-Required Gems:
-
-* capistrano (> 3.1.0)
-* capistrano-composer
-
-These can be installed manually with `gem install <gem name>` but it's highly suggested you use [Bundler](http://bundler.io/) to manage them. Bundler is basically the Ruby equivalent to PHP's Composer. Just as Composer manages your PHP packages/dependencies, Bundler manages your Ruby gems/dependencies. Bundler itself is a Gem and can be installed via `gem install bundler` (sudo may be required).
-
-The `Gemfile` in the root of this repo specifies the required Gems (just like `composer.json`). Once you have Bundler installed, run `bundle install` to install the Gems in the `Gemfile`. When using Bundler, you'll need to prefix the `cap` command with `bundle exec` as seen below (this ensures you're not using system Gems which can cause conflicts).
-
-See http://capistranorb.com/documentation/getting-started/authentication-and-authorisation/ for the best way to set up SSH key authentication to your servers for password-less (and secure) deploys.
-
-### Deployment Steps
-
-1. Edit your `resources/config/deploy/` stage/environment configs to set the roles/servers and connection options.
-2. Before your first deploy, run `bundle exec cap <stage> deploy:check` to create the necessary folders/symlinks.
-3. Add your `.env` file to `shared/` in your `deploy_to` path on the remote server for all the stages you use (ex: `/srv/www/example.com/shared/.env`)
-4. Run the normal deploy command: `bundle exec cap <stage> deploy`
-5. Enjoy one-command deploys!
-
-* Edit stage/environment configs in `resources/config/deploy/` to set the roles/servers and connection options.
 
 ## Documentation
 
 ### Folder Structure
 
 ```
-├── Capfile
 ├── composer.json
 ├── build
 ├── resources
 │    ├── config
 │    │   ├── application.php
-│    │   ├── deploy
-│    │   │   ├── staging.rb
-│    │   │   └── production.rb
-│    │   ├── deploy.rb
 │    │   ├── environments
 │    │   │   ├── development.php
 │    │   │   ├── staging.php
@@ -153,8 +118,7 @@ See http://capistranorb.com/documentation/getting-started/authentication-and-aut
 │        └── wp
 ├── src
 ├── test
-├── vendor
-└── Gemfile
+└── vendor
 ```
 
 The organization of Bedrock is similar to putting WordPress in its own subdirectory but with some improvements.
@@ -162,7 +126,6 @@ The organization of Bedrock is similar to putting WordPress in its own subdirect
 * In order not to expose sensitive files in the webroot, Bedrock moves what's required into a `resources/public/` directory including the vendor'd `wp/` source, and the `wp-content` source.
 * `wp-content` (or maybe just `content`) has been named `app` to better reflect its contents. It contains application code and not just "static content". It also matches up with other frameworks such as Symfony and Rails.
 * `wp-config.php` remains in the `resources/public/` because it's required by WP, but it only acts as a loader. The actual configuration files have been moved to `resources/config/` for better separation.
-* Capistrano configs are also located in `resources/config/` to make it consistent.
 * `vendor/` is where the Composer managed dependencies are installed to.
 * `wp/` is where the WordPress core lives. It's also managed by Composer but can't be put under `vendor` due to WP limitations.
 
@@ -261,35 +224,9 @@ Just like plugins, WPackagist maintains a Composer mirror of the WP theme direct
 
 Composer integration is the biggest part of Bedrock, so if you were going to remove it there isn't much point in using Bedrock.
 
-### Capistrano
-
-[Capistrano](http://www.capistranorb.com/) is a remote server automation and deployment tool. It will let you deploy or rollback your application in one command:
-
-* Deploy: `cap production deploy`
-* Rollback: `cap production deploy:rollback`
-
-Composer support is built-in so when you run a deploy, `composer install` is automatically run. Capistrano has a great [deploy flow](http://www.capistranorb.com/documentation/getting-started/flow/) that you can hook into and extend it.
-
-It's written in Ruby so it's needed *locally* if you want to use it. Capistrano was recently rewritten to be completely language agnostic, so if you previously wrote it off for being too Rails-centric, take another look at it.
-
-Screencast ($): [Deploying WordPress with Capistrano](http://roots.io/screencasts/deploying-wordpress-with-capistrano/)
-
 #### DB Syncing
 
 Bedrock doesn't come with anything by default to do DB syncing yet. The best option is to use WP-CLI.
-
-[@lavmeiker](https://github.com/lavmeiker) has a nice Capistrano WP-CLI wrapper plugin to make this even easier. [capistrano-wpcli](https://github.com/lavmeiker/capistrano-wpcli) offers the following commands (and more):
-
-* Sync DB: `cap production wpcli:db:push` and `cap production wpcli:db:pull`
-* Sync uploads: `cap production wpcli:uploads:rsync:push` and `cap production wpcli:uploads:rsync:pull`
-
-#### Don't want it?
-
-You will lose the one-command deploys and built-in integration with Composer. Another deploy method will be needed as well.
-
-* Remove `Capfile`, `Gemfile`, and `Gemfile.lock`
-* Remove `config/deploy.rb`
-* Remove `config/deploy/` directory
 
 ### wp-cron
 
