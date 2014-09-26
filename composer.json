@@ -67,6 +67,9 @@
     "vlucas/phpdotenv": "~1.0.6"
   },
   "extra": {
+    "branch-alias": {
+      "dev-master": "1.3.x-dev"
+    },
     "installer-paths": {
       "resources/public/app/mu-plugins/{$name}/": ["type:wordpress-muplugin"],
       "resources/public/app/plugins/{$name}/": ["type:wordpress-plugin"],
