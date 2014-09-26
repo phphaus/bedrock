@@ -6,16 +6,6 @@
   "homepage": "http://www.phphaus.com/",
   "authors": [
       {
-          "name": "Scott Walkinshaw",
-          "email": "scott.walkinshaw@gmail.com",
-          "homepage": "https://github.com/swalkinshaw"
-      },
-      {
-          "name": "Ben Word",
-          "email": "ben@benword.com",
-          "homepage": "https://github.com/retlehs"
-      },
-      {
           "name": "Philipp Duffner",
           "email": "philipp@phphaus.com",
           "homepage": "https://github.com/phpPhil"
