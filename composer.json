@@ -5,11 +5,21 @@
   "description": "A modern WordPress stack customized for phpHaus",
   "homepage": "http://www.phphaus.com/",
   "authors": [
-    {
-      "name": "Philipp Duffner",
-      "email": "philipp@phphaus.com",
-      "homepage": "https://github.com/phpPhil"
-    }
+      {
+          "name": "Scott Walkinshaw",
+          "email": "scott.walkinshaw@gmail.com",
+          "homepage": "https://github.com/swalkinshaw"
+      },
+      {
+          "name": "Ben Word",
+          "email": "ben@benword.com",
+          "homepage": "https://github.com/retlehs"
+      },
+      {
+          "name": "Philipp Duffner",
+          "email": "philipp@phphaus.com",
+          "homepage": "https://github.com/phpPhil"
+      }
   ],
   "keywords": [
     "wordpress", "stack", "capistrano", "composer", "vagrant", "wp"
